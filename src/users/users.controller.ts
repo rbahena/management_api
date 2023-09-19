@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { LoggerInterceptor } from 'src/core/logger/logger.interceptor';
 
-@ApiTags('user')
-@Controller('users')
+@ApiTags('users') // Add tag for swagger documentation
+@UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
+@Controller('users') // Name controller
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
