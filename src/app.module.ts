@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestDbconnectionModule } from './test-dbconnection/test-dbconnection.module';
 
 @Module({
   imports: [
@@ -14,9 +15,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username:'u178390542_developer',
       password:'dev3l0pEr*',
       entities:[__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize:true
+      synchronize:false
     }),
-    UsersModule],
+    UsersModule,
+    TestDbconnectionModule],
   controllers: [AppController],
   providers: [AppService],
 })
