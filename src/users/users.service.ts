@@ -7,7 +7,9 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
   create(createUserDto: CreateUserDto) {
     const newUser = this.userRepository.create(createUserDto);
@@ -15,18 +17,38 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.userRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userRepository.findOne({
+      where: {
+        id_usuario: id,
+      },
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne({
+      where: { id_usuario: id, estatus: true },
+    });
+
+    if (user == null) return;
+    return this.userRepository.update({ id_usuario: id }, updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const currentDate = new Date(Date.now());
+    const lowDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+
+    const user = await this.userRepository.findOne({
+      where: { id_usuario: id, estatus: true },
+    });
+
+    if (user == null) return;
+    return this.userRepository.update(
+      { id_usuario: id },
+      { estatus: false, fecha_baja: lowDate },
+    );
   }
 }

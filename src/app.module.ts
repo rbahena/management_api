@@ -16,7 +16,7 @@ import { join } from 'path';
       username:'u178390542_developer',
       password:'dev3l0pEr*',
       entities:[join(__dirname, '**', '*.entity.{ts,js}')],
-      synchronize:false
+      synchronize:true
     }),
     UsersModule,
     TestDbconnectionModule],

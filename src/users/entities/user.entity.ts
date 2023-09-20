@@ -5,28 +5,34 @@ export class User {
   @PrimaryGeneratedColumn()
   id_usuario: number;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   correo_electronico: string;
 
-  @Column({ type: "varchar"})
+  @Column({ type: 'text' })
   contrasena: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'boolean', default: false })
+  correo_confirmado: boolean;
+
+  @Column({ type: 'varchar' })
+  nombre_operacion_prueba: string;
+
+  @Column({ type: 'boolean', default: true })
   periodo_prueba: boolean;
 
-  @Column({ type: 'timestamp', default: ()=> 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', nullable: true })
   inicio_prueba: Date;
 
-  @Column()
+  @Column({ type: 'timestamp', nullable: true })
   fin_prueba: Date;
 
-  @Column({ nullable: true, default: 'null' })
+  @Column({ type: 'text', nullable: true, default: 'null' })
   auth_strategy: string;
 
-  @Column()
+  @Column({ type: 'boolean', default: true })
   estatus: boolean;
 
-  @Column({ type: 'timestamp', default: ()=> 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', nullable: true })
   fecha_alta: Date;
 
   @Column({ type: 'timestamp', nullable: true })
