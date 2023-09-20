@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
 export class User {
@@ -8,13 +8,13 @@ export class User {
   @Column({ unique: true })
   correo_electronico: string;
 
-  @Column()
+  @Column({ type: "varchar"})
   contrasena: string;
 
-  @Column({ type: 'datetime', default: () => 1 })
+  @Column({ type: 'timestamp' })
   periodo_prueba: boolean;
 
-  @Column({ type: 'datetime', default: () => 'current_timestamp' })
+  @Column({ type: 'timestamp', default: ()=> 'CURRENT_TIMESTAMP' })
   inicio_prueba: Date;
 
   @Column()
@@ -26,9 +26,9 @@ export class User {
   @Column()
   estatus: boolean;
 
-  @Column({ type: 'datetime', default: () => 'current_timestamp' })
+  @Column({ type: 'timestamp', default: ()=> 'CURRENT_TIMESTAMP' })
   fecha_alta: Date;
 
-  @Column({ type: 'datetime', nullable: true, default: 'null' })
+  @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
 }

@@ -11,7 +11,7 @@ import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.intercept
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('crearUsuario')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }

@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TestDbconnectionModule } from './test-dbconnection/test-dbconnection.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { TestDbconnectionModule } from './test-dbconnection/test-dbconnection.mo
       database:'u178390542_gestion',
       username:'u178390542_developer',
       password:'dev3l0pEr*',
-      entities:[__dirname + '/**/*.entity{.ts,.js}'],
+      entities:[join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize:false
     }),
     UsersModule,
