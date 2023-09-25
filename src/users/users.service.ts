@@ -30,7 +30,7 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne({
-      where: { id_usuario: id, estatus: true },
+      where: { id_usuario: id, estatus: 1 },
     });
 
     if (user == null) return;
@@ -42,13 +42,13 @@ export class UsersService {
     const lowDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
 
     const user = await this.userRepository.findOne({
-      where: { id_usuario: id, estatus: true },
+      where: { id_usuario: id, estatus: 1 },
     });
 
     if (user == null) return;
     return this.userRepository.update(
       { id_usuario: id },
-      { estatus: false, fecha_baja: lowDate },
+      { estatus: 0, fecha_baja: lowDate },
     );
   }
 }

@@ -11,28 +11,28 @@ export class User {
   @Column({ type: 'text' })
   contrasena: string;
 
-  @Column({ type: 'boolean', default: false })
-  correo_confirmado: boolean;
+  @Column({type: 'int', default: 0 })
+  correo_confirmado: number;
 
   @Column({ type: 'varchar' })
   nombre_operacion_prueba: string;
 
-  @Column({ type: 'boolean', default: true })
-  periodo_prueba: boolean;
+  @Column({ type: 'int', default: 1 })
+  periodo_prueba: number;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', default: () => 'NOW()' })
   inicio_prueba: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', default: () => "NOW() + interval 1 day" })
   fin_prueba: Date;
 
   @Column({ type: 'text', nullable: true, default: 'null' })
   auth_strategy: string;
 
-  @Column({ type: 'boolean', default: true })
-  estatus: boolean;
+  @Column({ type: 'int', default: 1 })
+  estatus: number;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', default: () => 'NOW()' })
   fecha_alta: Date;
 
   @Column({ type: 'timestamp', nullable: true })
