@@ -47,6 +47,7 @@ export class UsersService {
     if (!IsPassowrdCheck)
       throw new HttpException('Validar usuario o contraseña',HttpStatus.CONFLICT);
 
+    delete userExist.contrasena;
     return userExist;
   }
 
