@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { compareHash, generateHash } from 'src/core/encrypt/handleBcrypt';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+import { LoginUserDto } from './dto/login-user.dto';
+import { error } from 'console';
 
 @Injectable()
 export class UsersService {
@@ -11,9 +15,18 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    const newUser = this.userRepository.create(createUserDto);
-    return this.userRepository.save(newUser);
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const { contrasena, ...user } = createUserDto;
+      const newUserEncryptPass = {
+        ...user,
+        contrasena: await generateHash(contrasena),
+      };
+      const newUser = this.userRepository.create(newUserEncryptPass);
+      return this.userRepository.save(newUser);
+    } catch (error) {
+      throw new ExceptionsHandler(error);
+    }
   }
 
   findAll() {
@@ -26,6 +39,21 @@ export class UsersService {
         id_usuario: id,
       },
     });
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const { contrasena, correo_electronico } = loginUserDto;
+    const userExist = await this.userRepository.findOne({
+      where: { correo_electronico, estatus: 1 },
+    });
+    if (!userExist)
+      throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
+    const IsPassowrdCheck = await compareHash(contrasena, userExist.contrasena);
+    console.log(contrasena, correo_electronico, IsPassowrdCheck);
+    if (!IsPassowrdCheck)
+      throw new HttpException('Validar usuario o contraseña',HttpStatus.CONFLICT);
+
+    return userExist;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -50,5 +78,9 @@ export class UsersService {
       { id_usuario: id },
       { estatus: 0, fecha_baja: lowDate },
     );
+  }
+
+  async encryptText(plainText: string): Promise<string> {
+    return await generateHash(plainText);
   }
 }

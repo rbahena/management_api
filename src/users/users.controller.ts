@@ -16,6 +16,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.interceptor';
 import { User } from './entities/user.entity';
 import { promises } from 'dns';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @ApiTags('users') // Add tag for swagger documentation
 @UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
@@ -36,6 +37,11 @@ export class UsersController {
   @Get('getUser/:id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return this.usersService.findOne(+id);
+  }
+
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto ): Promise<User> {
+    return this.usersService.login(loginUserDto);
   }
 
   @Patch('updateUser/:id')
