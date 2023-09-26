@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
 export class User {
@@ -11,7 +12,7 @@ export class User {
   @Column({ type: 'text' })
   contrasena: string;
 
-  @Column({type: 'int', default: 0 })
+  @Column({ type: 'int', default: 0 })
   correo_confirmado: number;
 
   @Column({ type: 'varchar' })
@@ -23,7 +24,7 @@ export class User {
   @Column({ type: 'timestamp', default: () => 'NOW()' })
   inicio_prueba: Date;
 
-  @Column({ type: 'timestamp', default: () => "NOW() + interval 1 day" })
+  @Column({ type: 'timestamp', default: () => 'NOW() + interval 1 day' })
   fin_prueba: Date;
 
   @Column({ type: 'text', nullable: true, default: 'null' })
@@ -37,4 +38,7 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
+
+  @OneToOne(() => Suscriptor, (suscriptor) => suscriptor.usuario)
+  suscriptor: Suscriptor;
 }

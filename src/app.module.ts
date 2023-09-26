@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { SuppliersModule } from './suppliers/suppliers.module';
+import { SuscriptoresModule } from './suscriptores/suscriptores.module';
 
 @Module({
   imports: [
@@ -16,10 +16,10 @@ import { SuppliersModule } from './suppliers/suppliers.module';
       username: 'u178390542_developer',
       password: 'dev3l0pEr*',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-      synchronize: false,
+      synchronize: true,
     }),
     UsersModule,
-    SuppliersModule,
+    SuscriptoresModule,
   ],
   controllers: [AppController],
   providers: [AppService],
