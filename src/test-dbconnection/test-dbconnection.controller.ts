@@ -12,7 +12,6 @@ export class TestDbconnectionController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', {storage}))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
   }
 
   @Post()

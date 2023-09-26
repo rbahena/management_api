@@ -11,17 +11,12 @@ import { error } from 'console';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
       const { contrasena, ...user } = createUserDto;
-      const newUserEncryptPass = {
-        ...user,
-        contrasena: await generateHash(contrasena),
-      };
+      const newUserEncryptPass = {...user, contrasena: await generateHash(contrasena),};
       const newUser = this.userRepository.create(newUserEncryptPass);
       return this.userRepository.save(newUser);
     } catch (error) {
@@ -49,7 +44,6 @@ export class UsersService {
     if (!userExist)
       throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
     const IsPassowrdCheck = await compareHash(contrasena, userExist.contrasena);
-    console.log(contrasena, correo_electronico, IsPassowrdCheck);
     if (!IsPassowrdCheck)
       throw new HttpException('Validar usuario o contraseña',HttpStatus.CONFLICT);
 
@@ -68,7 +62,6 @@ export class UsersService {
   async remove(id: number) {
     const currentDate = new Date(Date.now());
     const lowDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
-
     const user = await this.userRepository.findOne({
       where: { id_usuario: id, estatus: 1 },
     });
@@ -78,9 +71,5 @@ export class UsersService {
       { id_usuario: id },
       { estatus: 0, fecha_baja: lowDate },
     );
-  }
-
-  async encryptText(plainText: string): Promise<string> {
-    return await generateHash(plainText);
   }
 }
