@@ -6,7 +6,7 @@ import { User } from './entities/user.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User])],
+  imports:[TypeOrmModule.forFeature([User, Suscriptor])],
   controllers: [UsersController],
   providers: [UsersService],
 })

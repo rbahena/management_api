@@ -25,7 +25,7 @@ export class UsersService {
   }
 
   findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({relations:['suscriptor']});
   }
 
   findOne(id: number) {

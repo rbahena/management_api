@@ -39,6 +39,6 @@ export class User {
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
 
-  @OneToOne(() => Suscriptor, (suscriptor) => suscriptor.usuario)
+  @OneToOne(() => Suscriptor, (suscriptor) => suscriptor.fk_usuario)
   suscriptor: Suscriptor;
 }

@@ -13,8 +13,8 @@ export class Suscriptor {
   id_suscriptor: number;
 
   @OneToOne(() => User)
-  @JoinColumn({ name: 'fk_usuario' })
-  usuario: User;
+  @JoinColumn()
+  fk_usuario: User;
 
   @Column({ type: 'varchar' })
   nombre_usuario: string;
