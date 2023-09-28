@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ParseIntPipe } from '@nestjs/common';
 import { SuscriptoresService } from './suscriptores.service';
 import { CreateSuscriptoreDto } from './dto/create-suscriptore.dto';
 import { UpdateSuscriptoreDto } from './dto/update-suscriptore.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.interceptor';
+import { Suscriptor } from './entities/suscriptor.entity';
 
 
 @ApiTags('suscriptores') // Add tag for swagger documentation
@@ -23,7 +24,7 @@ export class SuscriptoresController {
   }
 
   @Get('getSuscriptor/:id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id:number):Promise<Suscriptor> {
     return this.suscriptoresService.findOne(+id);
   }
 
