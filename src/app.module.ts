@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { SuscriptoresModule } from './suscriptores/suscriptores.module';
 import { OperacionesModule } from './controllers/operaciones/operaciones.module';
+import { CategoriasProductosModule } from './controllers/categorias-productos/categorias-productos.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { OperacionesModule } from './controllers/operaciones/operaciones.module'
     UsersModule,
     SuscriptoresModule,
     OperacionesModule,
+    CategoriasProductosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
