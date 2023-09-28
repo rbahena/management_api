@@ -1,4 +1,7 @@
 import { CategoriasProducto } from 'src/controllers/categorias-productos/entities/categorias-producto.entity';
+import { EnvasesProducto } from 'src/controllers/envases-productos/entities/envases-producto.entity';
+import { PresentacionesProducto } from 'src/controllers/presentaciones-producto/entities/presentaciones-producto.entity';
+import { UnidadesMedidaProducto } from 'src/controllers/unidades-medida-producto/entities/unidades-medida-producto.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 import {
   Column,
@@ -33,4 +36,13 @@ export class Operacione {
 
   @OneToMany(() => CategoriasProducto, (categorias) => categorias.id_categoria)
   categorias: CategoriasProducto[];
+
+  @OneToMany(() => EnvasesProducto, (envases) => envases.id_envase)
+  envases: EnvasesProducto[];
+
+  @OneToMany(() => UnidadesMedidaProducto, (unidadMedida) => unidadMedida.id_unidad_medida)
+  unidadesMedidas: UnidadesMedidaProducto[];
+
+  @OneToMany(() => PresentacionesProducto, (presentaciones) => presentaciones.id_presentacion)
+  presentaciones: PresentacionesProducto[];
 }
