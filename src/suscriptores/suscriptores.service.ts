@@ -24,13 +24,13 @@ export class SuscriptoresService {
   }
 
   findAll() {
-    return this.suscriptorRepository.find({ relations: ['fk_usuario'] });
+    return this.suscriptorRepository.find({ relations: ['usuario'] });
   }
 
   async findOne(id: number) {
     const suscriptor = await this.suscriptorRepository.findOne({
       where: { id_suscriptor: id },
-      relations: ['fk_usuario'],
+      relations: ['usuario'],
     });
     if (!suscriptor)
       throw new HttpException(
@@ -39,7 +39,7 @@ export class SuscriptoresService {
       );
     return this.suscriptorRepository.findOne({
       where: { id_suscriptor: id },
-      relations: ['fk_usuario'],
+      relations: ['usuario'],
     });
   }
 

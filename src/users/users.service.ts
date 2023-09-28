@@ -33,6 +33,7 @@ export class UsersService {
       where: {
         id_usuario: id,
       },
+      relations:['suscriptor']
     });
   }
 
