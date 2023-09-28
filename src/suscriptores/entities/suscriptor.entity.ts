@@ -1,3 +1,4 @@
+import { Operacione } from 'src/controllers/operaciones/entities/operacione.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
@@ -5,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'suscriptores' })
@@ -13,8 +15,8 @@ export class Suscriptor {
   id_suscriptor: number;
 
   @OneToOne(() => User)
-  @JoinColumn()
-  fk_usuario: User;
+  @JoinColumn({ name: 'fk_usuario' })
+  usuario: User;
 
   @Column({ type: 'varchar' })
   nombre_usuario: string;
@@ -36,4 +38,8 @@ export class Suscriptor {
 
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
+
+  @OneToMany(() => Operacione, (operaciones) => operaciones.id_operacion_usuario)
+  operaciones: Operacione[];
+
 }

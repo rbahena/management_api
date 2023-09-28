@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { SuscriptoresModule } from './suscriptores/suscriptores.module';
+import { OperacionesModule } from './controllers/operaciones/operaciones.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SuscriptoresModule } from './suscriptores/suscriptores.module';
     }),
     UsersModule,
     SuscriptoresModule,
+    OperacionesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

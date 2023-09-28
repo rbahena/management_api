@@ -21,14 +21,14 @@ export class User {
   @Column({ type: 'int', default: 1 })
   periodo_prueba: number;
 
+  @Column({ type: 'text', nullable: true, default: 'null' })
+  auth_strategy: string;
+
   @Column({ type: 'timestamp', default: () => 'NOW()' })
   inicio_prueba: Date;
 
   @Column({ type: 'timestamp', default: () => 'NOW() + interval 1 day' })
   fin_prueba: Date;
-
-  @Column({ type: 'text', nullable: true, default: 'null' })
-  auth_strategy: string;
 
   @Column({ type: 'int', default: 1 })
   estatus: number;
@@ -39,6 +39,6 @@ export class User {
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
 
-  @OneToOne(() => Suscriptor, (suscriptor) => suscriptor.fk_usuario)
+  @OneToOne(() => Suscriptor, (suscriptor) => suscriptor.usuario)
   suscriptor: Suscriptor;
 }
