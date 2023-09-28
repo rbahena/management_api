@@ -10,6 +10,7 @@ import { CategoriasProductosModule } from './controllers/categorias-productos/ca
 import { EnvasesProductosModule } from './controllers/envases-productos/envases-productos.module';
 import { UnidadesMedidaProductoModule } from './controllers/unidades-medida-producto/unidades-medida-producto.module';
 import { PresentacionesProductoModule } from './controllers/presentaciones-producto/presentaciones-producto.module';
+import { UnidadCompraModule } from './controllers/unidad-compra/unidad-compra.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PresentacionesProductoModule } from './controllers/presentaciones-produ
     EnvasesProductosModule,
     UnidadesMedidaProductoModule,
     PresentacionesProductoModule,
+    UnidadCompraModule,
   ],
   controllers: [AppController],
   providers: [AppService],

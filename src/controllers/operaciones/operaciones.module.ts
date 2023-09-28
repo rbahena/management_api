@@ -8,9 +8,20 @@ import { CategoriasProducto } from '../categorias-productos/entities/categorias-
 import { EnvasesProducto } from '../envases-productos/entities/envases-producto.entity';
 import { UnidadesMedidaProducto } from '../unidades-medida-producto/entities/unidades-medida-producto.entity';
 import { PresentacionesProducto } from '../presentaciones-producto/entities/presentaciones-producto.entity';
+import { UnidadCompra } from '../unidad-compra/entities/unidad-compra.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([ Operacione, Suscriptor,CategoriasProducto, EnvasesProducto, UnidadesMedidaProducto, PresentacionesProducto])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Operacione,
+      Suscriptor,
+      CategoriasProducto,
+      EnvasesProducto,
+      UnidadesMedidaProducto,
+      PresentacionesProducto,
+      UnidadCompra
+    ]),
+  ],
   controllers: [OperacionesController],
   providers: [OperacionesService],
 })
