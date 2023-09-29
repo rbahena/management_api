@@ -2,7 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UnidadesMedidaProductoService } from './unidades-medida-producto.service';
 import { CreateUnidadesMedidaProductoDto } from './dto/create-unidades-medida-producto.dto';
 import { UpdateUnidadesMedidaProductoDto } from './dto/update-unidades-medida-producto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+
+
+@ApiTags('unidades-medida') // Add tag for swagger documentation
 @Controller('unidades-medida-producto')
 export class UnidadesMedidaProductoController {
   constructor(private readonly unidadesMedidaProductoService: UnidadesMedidaProductoService) {}

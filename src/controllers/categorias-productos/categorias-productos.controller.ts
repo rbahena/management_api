@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { CategoriasProductosService } from './categorias-productos.service';
 import { CreateCategoriasProductoDto } from './dto/create-categorias-producto.dto';
 import { UpdateCategoriasProductoDto } from './dto/update-categorias-producto.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.interceptor';
 
+
+@ApiTags('categorias') // Add tag for swagger documentation
+@UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
 @Controller('categorias-productos')
 export class CategoriasProductosController {
   constructor(private readonly categoriasProductosService: CategoriasProductosService) {}

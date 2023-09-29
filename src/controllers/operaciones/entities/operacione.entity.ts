@@ -3,6 +3,7 @@ import { EnvasesProducto } from 'src/controllers/envases-productos/entities/enva
 import { PresentacionesProducto } from 'src/controllers/presentaciones-producto/entities/presentaciones-producto.entity';
 import { Producto } from 'src/controllers/productos/entities/producto.entity';
 import { Proveedore } from 'src/controllers/proveedores/entities/proveedore.entity';
+import { RelTipoCompraProductoProveedor } from 'src/controllers/rel_tipo_compra_producto_proveedor/entities/rel_tipo_compra_producto_proveedor.entity';
 import { UnidadCompra } from 'src/controllers/unidad-compra/entities/unidad-compra.entity';
 import { UnidadesMedidaProducto } from 'src/controllers/unidades-medida-producto/entities/unidades-medida-producto.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
@@ -59,5 +60,9 @@ export class Operacione {
   
   @OneToMany(() => Producto, (producto) => producto.id_producto)
   productos: Producto[];
+
+  
+  @OneToMany(() => RelTipoCompraProductoProveedor, (relacionProductoProveedor) => relacionProductoProveedor.id_rel_producto_proveedor)
+  relacionProductoProveedor: RelTipoCompraProductoProveedor[];
   
 }

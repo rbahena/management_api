@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PresentacionesProductoService } from './presentaciones-producto.service';
 import { CreatePresentacionesProductoDto } from './dto/create-presentaciones-producto.dto';
 import { UpdatePresentacionesProductoDto } from './dto/update-presentaciones-producto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('presentaciones_producto') // Add tag for swagger documentation
 @Controller('presentaciones-producto')
 export class PresentacionesProductoController {
   constructor(private readonly presentacionesProductoService: PresentacionesProductoService) {}

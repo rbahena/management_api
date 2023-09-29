@@ -1,4 +1,5 @@
 import { Operacione } from 'src/controllers/operaciones/entities/operacione.entity';
+import { RelTipoCompraProductoProveedor } from 'src/controllers/rel_tipo_compra_producto_proveedor/entities/rel_tipo_compra_producto_proveedor.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 import {
   Column,
@@ -32,5 +33,8 @@ export class Proveedore {
   
     @Column({ type: 'timestamp', nullable: true })
     fecha_baja: Date;
+
+    @OneToMany(() => RelTipoCompraProductoProveedor, (relacionProductoProveedor) => relacionProductoProveedor.id_rel_producto_proveedor)
+    proveedores: RelTipoCompraProductoProveedor[];
 
 }

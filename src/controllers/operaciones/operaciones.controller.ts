@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { OperacionesService } from './operaciones.service';
 import { CreateOperacioneDto } from './dto/create-operacione.dto';
 import { UpdateOperacioneDto } from './dto/update-operacione.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.interceptor';
 
+
+@ApiTags('operaciones_usuarios') // Add tag for swagger documentation
+@UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
 @Controller('operaciones')
 export class OperacionesController {
   constructor(private readonly operacionesService: OperacionesService) {}

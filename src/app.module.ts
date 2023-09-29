@@ -13,6 +13,7 @@ import { PresentacionesProductoModule } from './controllers/presentaciones-produ
 import { UnidadCompraModule } from './controllers/unidad-compra/unidad-compra.module';
 import { ProveedoresModule } from './controllers/proveedores/proveedores.module';
 import { ProductosModule } from './controllers/productos/productos.module';
+import { RelTipoCompraProductoProveedorModule } from './controllers/rel_tipo_compra_producto_proveedor/rel_tipo_compra_producto_proveedor.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ProductosModule } from './controllers/productos/productos.module';
     UnidadCompraModule,
     ProveedoresModule,
     ProductosModule,
+    RelTipoCompraProductoProveedorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

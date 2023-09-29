@@ -2,6 +2,7 @@ import { CategoriasProducto } from 'src/controllers/categorias-productos/entitie
 import { EnvasesProducto } from 'src/controllers/envases-productos/entities/envases-producto.entity';
 import { Operacione } from 'src/controllers/operaciones/entities/operacione.entity';
 import { PresentacionesProducto } from 'src/controllers/presentaciones-producto/entities/presentaciones-producto.entity';
+import { RelTipoCompraProductoProveedor } from 'src/controllers/rel_tipo_compra_producto_proveedor/entities/rel_tipo_compra_producto_proveedor.entity';
 import { UnidadesMedidaProducto } from 'src/controllers/unidades-medida-producto/entities/unidades-medida-producto.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 import {
@@ -63,4 +64,8 @@ export class Producto {
 
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
+
+  
+  @OneToMany(() => RelTipoCompraProductoProveedor, (relacionProductoProveedor) => relacionProductoProveedor.id_rel_producto_proveedor)
+  productos: RelTipoCompraProductoProveedor[];
 }
