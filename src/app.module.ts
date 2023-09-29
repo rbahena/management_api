@@ -11,6 +11,8 @@ import { EnvasesProductosModule } from './controllers/envases-productos/envases-
 import { UnidadesMedidaProductoModule } from './controllers/unidades-medida-producto/unidades-medida-producto.module';
 import { PresentacionesProductoModule } from './controllers/presentaciones-producto/presentaciones-producto.module';
 import { UnidadCompraModule } from './controllers/unidad-compra/unidad-compra.module';
+import { ProveedoresModule } from './controllers/proveedores/proveedores.module';
+import { ProductosModule } from './controllers/productos/productos.module';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { UnidadCompraModule } from './controllers/unidad-compra/unidad-compra.mo
     UnidadesMedidaProductoModule,
     PresentacionesProductoModule,
     UnidadCompraModule,
+    ProveedoresModule,
+    ProductosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

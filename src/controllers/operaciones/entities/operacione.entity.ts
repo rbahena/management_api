@@ -1,6 +1,8 @@
 import { CategoriasProducto } from 'src/controllers/categorias-productos/entities/categorias-producto.entity';
 import { EnvasesProducto } from 'src/controllers/envases-productos/entities/envases-producto.entity';
 import { PresentacionesProducto } from 'src/controllers/presentaciones-producto/entities/presentaciones-producto.entity';
+import { Producto } from 'src/controllers/productos/entities/producto.entity';
+import { Proveedore } from 'src/controllers/proveedores/entities/proveedore.entity';
 import { UnidadCompra } from 'src/controllers/unidad-compra/entities/unidad-compra.entity';
 import { UnidadesMedidaProducto } from 'src/controllers/unidades-medida-producto/entities/unidades-medida-producto.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
@@ -49,5 +51,13 @@ export class Operacione {
 
   @OneToMany(() => UnidadCompra, (unidadesCompra) => unidadesCompra.id_unidad_compra)
   unidadesCompra: UnidadCompra[];
+
+  
+  @OneToMany(() => Proveedore, (proveedor) => proveedor.id_proveedor)
+  proveedores: Proveedore[];
+
+  
+  @OneToMany(() => Producto, (producto) => producto.id_producto)
+  productos: Producto[];
   
 }

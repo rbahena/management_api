@@ -1,4 +1,5 @@
 import { Operacione } from 'src/controllers/operaciones/entities/operacione.entity';
+import { Producto } from 'src/controllers/productos/entities/producto.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 import {
   Column,
@@ -30,4 +31,7 @@ export class CategoriasProducto {
 
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
+
+  @OneToMany(() => Producto, (categoria) => categoria.id_producto)
+  categorias: Producto[];
 }

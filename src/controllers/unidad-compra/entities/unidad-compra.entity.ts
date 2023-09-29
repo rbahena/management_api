@@ -1,4 +1,5 @@
 import { Operacione } from 'src/controllers/operaciones/entities/operacione.entity';
+import { Producto } from 'src/controllers/productos/entities/producto.entity';
 import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 import {
   Column,
