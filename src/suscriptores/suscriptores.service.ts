@@ -5,21 +5,38 @@ import { Suscriptor } from './entities/suscriptor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class SuscriptoresService {
   constructor(
     @InjectRepository(Suscriptor)
     private suscriptorRepository: Repository<Suscriptor>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   async create(createSuscriptoreDto: CreateSuscriptoreDto) {
     try {
-      const newSuscriptor =
-        this.suscriptorRepository.create(createSuscriptoreDto);
+      const id_usuario  = createSuscriptoreDto.fk_usuario.id_usuario;
+      const userExist = await this.userRepository.findOne({
+        where: { id_usuario },
+      });
+      if (userExist == null)
+        throw new HttpException(
+          'No existe el usuario indicado',
+          HttpStatus.NOT_FOUND,
+        );
+      const suscri = new Suscriptor();
+      suscri.usuario = userExist;
+      suscri.nombre_usuario = createSuscriptoreDto.nombre_usuario;
+      suscri.primer_apellido = createSuscriptoreDto.primer_apellido;
+      suscri.segundo_apellido = createSuscriptoreDto.segundo_apellido;
+      suscri.operaciones_disponibles =
+        createSuscriptoreDto.operaciones_disponibles;
+      const newSuscriptor = this.suscriptorRepository.create(suscri);
       return this.suscriptorRepository.save(newSuscriptor);
     } catch (error) {
-      throw new ExceptionsHandler(error);
+      throw new HttpException(error, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -48,8 +65,12 @@ export class SuscriptoresService {
       where: { id_suscriptor: id, estatus: 1 },
     });
     console.log(suscriptor);
-    if (!suscriptor) throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);;
-    return this.suscriptorRepository.update({ id_suscriptor: id }, updateSuscriptoreDto);
+    if (!suscriptor)
+      throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
+    return this.suscriptorRepository.update(
+      { id_suscriptor: id },
+      updateSuscriptoreDto,
+    );
   }
 
   remove(id: number) {
