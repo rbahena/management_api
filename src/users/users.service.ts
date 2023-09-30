@@ -11,12 +11,17 @@ import { error } from 'console';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
       const { contrasena, ...user } = createUserDto;
-      const newUserEncryptPass = {...user, contrasena: await generateHash(contrasena),};
+      const newUserEncryptPass = {
+        ...user,
+        contrasena: await generateHash(contrasena),
+      };
       const newUser = this.userRepository.create(newUserEncryptPass);
       return this.userRepository.save(newUser);
     } catch (error) {
@@ -24,17 +29,20 @@ export class UsersService {
     }
   }
 
-  findAll() {
-    return this.userRepository.find({relations:['suscriptor']});
+  async findAll() {
+    const allUsers = await this.userRepository.find({ relations: ['suscriptor'] });
+    return allUsers;
   }
 
-  findOne(id: number) {
-    return this.userRepository.findOne({
+  async findOne(id: number) {
+    const userExist = await this.userRepository.findOne({
       where: {
         id_usuario: id,
       },
-      relations:['suscriptor']
+      relations: ['suscriptor'],
     });
+    if(!userExist) throw new HttpException('No se encontro la información solicitada', HttpStatus.NOT_FOUND);
+    return userExist;
   }
 
   async login(loginUserDto: LoginUserDto) {
@@ -46,7 +54,10 @@ export class UsersService {
       throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
     const IsPassowrdCheck = await compareHash(contrasena, userExist.contrasena);
     if (!IsPassowrdCheck)
-      throw new HttpException('Validar usuario o contraseña',HttpStatus.CONFLICT);
+      throw new HttpException(
+        'Validar usuario o contraseña',
+        HttpStatus.CONFLICT,
+      );
 
     delete userExist.contrasena;
     return userExist;
