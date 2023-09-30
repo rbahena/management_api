@@ -12,7 +12,7 @@ import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.intercept
 export class OperacionesController {
   constructor(private readonly operacionesService: OperacionesService) {}
 
-  @Post()
+  @Post('crearSuscriptor')
   create(@Body() createOperacioneDto: CreateOperacioneDto) {
     return this.operacionesService.create(createOperacioneDto);
   }

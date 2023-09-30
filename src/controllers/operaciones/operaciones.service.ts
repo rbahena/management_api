@@ -1,11 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOperacioneDto } from './dto/create-operacione.dto';
 import { UpdateOperacioneDto } from './dto/update-operacione.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Operacione } from './entities/operacione.entity';
+import { Repository } from 'typeorm';
+import { Suscriptor } from 'src/suscriptores/entities/suscriptor.entity';
 
 @Injectable()
 export class OperacionesService {
-  create(createOperacioneDto: CreateOperacioneDto) {
-    return 'This action adds a new operacione';
+  constructor(
+    @InjectRepository(Operacione)
+    private operacionesRepository: Repository<Operacione>,
+    @InjectRepository(Suscriptor)
+    private suscriptorRepository: Repository<Suscriptor>,
+  ) {}
+
+  async create(createOperacioneDto: CreateOperacioneDto) {
+    try {
+      const id_suscriptor = createOperacioneDto.fk_suscriptor.id_suscriptor;
+      const suscrptorExist = await this.suscriptorRepository.findOne({
+        where: { id_suscriptor },
+      });
+
+      console.log(suscrptorExist);
+      if (suscrptorExist == null)
+        throw new HttpException(
+          'No existe el suscriptor indicado',
+          HttpStatus.NOT_FOUND,
+        );
+      const operacion = new Operacione();
+      operacion.suscriptor = suscrptorExist;
+      operacion.nombre_operacion = createOperacioneDto.nombre_operacion;
+      this.operacionesRepository.create(operacion);
+      return this.operacionesRepository.save(operacion);
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.NOT_FOUND);
+    }
   }
 
   findAll() {
