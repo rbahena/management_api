@@ -17,7 +17,10 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const { contrasena, ...user } = createUserDto;
+      const { contrasena, correo_electronico, ...user } = createUserDto;
+      const mailExist = await this.userRepository.findOne({where: { correo_electronico }});
+      if(!mailExist) throw new HttpException('El correo electrónico ya se encuentra registrado', HttpStatus.CONFLICT);
+
       const newUserEncryptPass = {
         ...user,
         contrasena: await generateHash(contrasena),
