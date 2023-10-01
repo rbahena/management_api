@@ -18,8 +18,14 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     try {
       const { contrasena, correo_electronico, ...user } = createUserDto;
-      const mailExist = await this.userRepository.findOne({where: { correo_electronico }});
-      if(!mailExist) throw new HttpException('El correo electrónico ya se encuentra registrado', HttpStatus.CONFLICT);
+      const mailExist = await this.userRepository.findOne({
+        where: { correo_electronico },
+      });
+      if (!mailExist)
+        throw new HttpException(
+          'El correo electrónico ya se encuentra registrado',
+          HttpStatus.CONFLICT,
+        );
 
       const newUserEncryptPass = {
         ...user,
@@ -33,59 +39,111 @@ export class UsersService {
   }
 
   async findAll() {
-    const allUsers = await this.userRepository.find({ relations: ['suscriptor'] });
-    return allUsers;
+    try {
+      const allUsers = await this.userRepository.find({
+        relations: ['suscriptor'],
+      });
+      return allUsers;
+    } catch (error) {
+      throw new HttpException(
+        'Ocurrio un error al intentar recuperar los datos',
+        HttpStatus.CONFLICT,
+      );
+    }
   }
 
   async findOne(id: number) {
-    const userExist = await this.userRepository.findOne({
-      where: {
-        id_usuario: id,
-      },
-      relations: ['suscriptor'],
-    });
-    if(!userExist) throw new HttpException('No se encontro la información solicitada', HttpStatus.NOT_FOUND);
-    return userExist;
+    try {
+      const userExist = await this.userRepository.findOne({
+        where: {
+          id_usuario: id,
+        },
+        relations: ['suscriptor'],
+      });
+      if (!userExist)
+        throw new HttpException(
+          'No se encontro la información solicitada',
+          HttpStatus.NOT_FOUND,
+        );
+      return userExist;
+    } catch (error) {
+      throw new HttpException(
+        'Ocurrio un error al intentar recuperar los datos',
+        HttpStatus.CONFLICT,
+      );
+    }
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const { contrasena, correo_electronico } = loginUserDto;
-    const userExist = await this.userRepository.findOne({
-      where: { correo_electronico, estatus: 1 },
-    });
-    if (!userExist)
-      throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
-    const IsPassowrdCheck = await compareHash(contrasena, userExist.contrasena);
-    if (!IsPassowrdCheck)
+    try {
+      const { contrasena, correo_electronico } = loginUserDto;
+      const userExist = await this.userRepository.findOne({
+        where: { correo_electronico, estatus: 1 },
+      });
+      if (!userExist)
+        throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
+      const IsPassowrdCheck = await compareHash(
+        contrasena,
+        userExist.contrasena,
+      );
+      if (!IsPassowrdCheck)
+        throw new HttpException(
+          'Validar usuario o contraseña',
+          HttpStatus.CONFLICT,
+        );
+
+      delete userExist.contrasena;
+      return userExist;
+    } catch (error) {
       throw new HttpException(
-        'Validar usuario o contraseña',
+        'Ocurrio un error al iniciar sesión, intentar nuevamente.',
         HttpStatus.CONFLICT,
       );
-
-    delete userExist.contrasena;
-    return userExist;
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOne({
-      where: { id_usuario: id, estatus: 1 },
-    });
+    try {
+      const user = await this.userRepository.findOne({
+        where: { id_usuario: id, estatus: 1 },
+      });
 
-    if (user == null) return;
-    return this.userRepository.update({ id_usuario: id }, updateUserDto);
+      if (!user)
+        throw new HttpException(
+          'No existe la información solicitada, intentar nuevamente.',
+          HttpStatus.NOT_FOUND,
+        );
+      return this.userRepository.update({ id_usuario: id }, updateUserDto);
+    } catch (error) {
+      throw new HttpException(
+        'Ocurrio un error al actualizar la información, intentar nuevamente.',
+        HttpStatus.CONFLICT,
+      );
+    }
   }
 
   async remove(id: number) {
-    const currentDate = new Date(Date.now());
-    const lowDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
-    const user = await this.userRepository.findOne({
-      where: { id_usuario: id, estatus: 1 },
-    });
+    try {
+      const currentDate = new Date(Date.now());
+      const lowDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+      const user = await this.userRepository.findOne({
+        where: { id_usuario: id, estatus: 1 },
+      });
 
-    if (user == null) return;
-    return this.userRepository.update(
-      { id_usuario: id },
-      { estatus: 0, fecha_baja: lowDate },
-    );
+      if (!user)
+        throw new HttpException(
+          'No existe la información solicitada, intentar nuevamente.',
+          HttpStatus.NOT_FOUND,
+        );
+      return this.userRepository.update(
+        { id_usuario: id },
+        { estatus: 0, fecha_baja: lowDate },
+      );
+    } catch (error) {
+      throw new HttpException(
+        'No existe la información solicitada, intentar nuevamente.',
+        HttpStatus.CONFLICT,
+      );
+    }
   }
 }
