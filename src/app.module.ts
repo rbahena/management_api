@@ -37,7 +37,7 @@ import { RelTipoCompraProductoProveedorModule } from './controllers/rel_tipo_com
     UnidadCompraModule,
     ProveedoresModule,
     ProductosModule,
-    RelTipoCompraProductoProveedorModule,
+    RelTipoCompraProductoProveedorModule
   ],
   controllers: [AppController],
   providers: [AppService],

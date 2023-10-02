@@ -40,7 +40,7 @@ export class UsersController {
   }
 
   @Post('login')
-  login(@Body() loginUserDto: LoginUserDto ): Promise<User> {
+  login(@Body() loginUserDto: LoginUserDto ): Promise<any> {
     return this.usersService.login(loginUserDto);
   }
 

@@ -8,18 +8,26 @@ import { compareHash, generateHash } from 'src/core/encrypt/handleBcrypt';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { LoginUserDto } from './dto/login-user.dto';
 import { error } from 'console';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
       const { contrasena, correo_electronico, ...user } = createUserDto;
-      const mailExist = await this.userRepository.findOne({where: { correo_electronico }});
-      if(mailExist != null) throw new HttpException('El correo electrónico ya se encuentra registrado', HttpStatus.CONFLICT);
+      const mailExist = await this.userRepository.findOne({
+        where: { correo_electronico },
+      });
+      if (mailExist != null)
+        throw new HttpException(
+          'El correo electrónico ya se encuentra registrado',
+          HttpStatus.CONFLICT,
+        );
 
       const newUserEncryptPass = {
         ...user,
@@ -34,7 +42,9 @@ export class UsersService {
   }
 
   async findAll() {
-    const allUsers = await this.userRepository.find({ relations: ['suscriptor'] });
+    const allUsers = await this.userRepository.find({
+      relations: ['suscriptor'],
+    });
     return allUsers;
   }
 
@@ -45,8 +55,12 @@ export class UsersService {
       },
       relations: ['suscriptor'],
     });
-    if(!userExist) throw new HttpException('No se encontro la información solicitada', HttpStatus.NOT_FOUND);
-    
+    if (!userExist)
+      throw new HttpException(
+        'No se encontro la información solicitada',
+        HttpStatus.NOT_FOUND,
+      );
+
     delete userExist.contrasena;
     return userExist;
   }
@@ -66,7 +80,17 @@ export class UsersService {
       );
 
     delete userExist.contrasena;
-    return userExist;
+    const tokenPayload = {
+      correo: userExist.correo_electronico,
+      operacion: userExist.nombre_operacion_prueba,
+      inicioPrueba: userExist.inicio_prueba,
+    };
+    const token = await this.jwtService.signAsync(tokenPayload);
+    const data = {
+      token,
+      user: userExist,
+    };
+    return data;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
