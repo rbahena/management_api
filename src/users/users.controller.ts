@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,10 +18,12 @@ import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.intercept
 import { User } from './entities/user.entity';
 import { promises } from 'dns';
 import { LoginUserDto } from './dto/login-user.dto';
+import { BrowserAgentGuard } from 'src/core/browser-agent/browser-agent.guard';
 
-@ApiTags('users') // Add tag for swagger documentation
-@UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
-@Controller('users') // Name controller
+@ApiTags('users')
+@Controller('users') 
+@UseInterceptors(LoggerInterceptor) 
+@UseGuards(BrowserAgentGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
