@@ -19,16 +19,17 @@ export class UsersService {
     try {
       const { contrasena, correo_electronico, ...user } = createUserDto;
       const mailExist = await this.userRepository.findOne({where: { correo_electronico }});
-      if(!mailExist) throw new HttpException('El correo electrónico ya se encuentra registrado', HttpStatus.CONFLICT);
+      if(mailExist != null) throw new HttpException('El correo electrónico ya se encuentra registrado', HttpStatus.CONFLICT);
 
       const newUserEncryptPass = {
         ...user,
+        correo_electronico,
         contrasena: await generateHash(contrasena),
       };
       const newUser = this.userRepository.create(newUserEncryptPass);
       return this.userRepository.save(newUser);
     } catch (error) {
-      throw new ExceptionsHandler(error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
