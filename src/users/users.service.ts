@@ -46,6 +46,8 @@ export class UsersService {
       relations: ['suscriptor'],
     });
     if(!userExist) throw new HttpException('No se encontro la información solicitada', HttpStatus.NOT_FOUND);
+    
+    delete userExist.contrasena;
     return userExist;
   }
 
