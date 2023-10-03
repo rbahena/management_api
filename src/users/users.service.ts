@@ -81,6 +81,7 @@ export class UsersService {
 
     delete userExist.contrasena;
     const tokenPayload = {
+      id: userExist.id_usuario,
       correo: userExist.correo_electronico,
       operacion: userExist.nombre_operacion_prueba,
       inicioPrueba: userExist.inicio_prueba,

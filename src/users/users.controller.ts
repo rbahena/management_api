@@ -18,7 +18,8 @@ import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.intercept
 import { User } from './entities/user.entity';
 import { promises } from 'dns';
 import { LoginUserDto } from './dto/login-user.dto';
-import { BrowserAgentGuard } from 'src/core/browser-agent/browser-agent.guard';
+import { BrowserAgentGuard } from 'src/core/guards/browser-agent/browser-agent.guard';
+import { JwtGuardGuard } from 'src/core/guards/jwt-guard/jwt-guard.guard';
 
 @ApiTags('users')
 @Controller('users') 
