@@ -8,11 +8,13 @@ import { compareHash, generateHash } from 'src/core/encrypt/handleBcrypt';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { LoginUserDto } from './dto/login-user.dto';
 import { error } from 'console';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -21,7 +23,7 @@ export class UsersService {
       const mailExist = await this.userRepository.findOne({
         where: { correo_electronico },
       });
-      if (!mailExist)
+      if (mailExist != null)
         throw new HttpException(
           'El correo electrónico ya se encuentra registrado',
           HttpStatus.CONFLICT,
@@ -29,49 +31,38 @@ export class UsersService {
 
       const newUserEncryptPass = {
         ...user,
+        correo_electronico,
         contrasena: await generateHash(contrasena),
       };
       const newUser = this.userRepository.create(newUserEncryptPass);
       return this.userRepository.save(newUser);
     } catch (error) {
-      throw new ExceptionsHandler(error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
   async findAll() {
-    try {
-      const allUsers = await this.userRepository.find({
-        relations: ['suscriptor'],
-      });
-      return allUsers;
-    } catch (error) {
-      throw new HttpException(
-        'Ocurrio un error al intentar recuperar los datos',
-        HttpStatus.CONFLICT,
-      );
-    }
+    const allUsers = await this.userRepository.find({
+      relations: ['suscriptor'],
+    });
+    return allUsers;
   }
 
   async findOne(id: number) {
-    try {
-      const userExist = await this.userRepository.findOne({
-        where: {
-          id_usuario: id,
-        },
-        relations: ['suscriptor'],
-      });
-      if (!userExist)
-        throw new HttpException(
-          'No se encontro la información solicitada',
-          HttpStatus.NOT_FOUND,
-        );
-      return userExist;
-    } catch (error) {
+    const userExist = await this.userRepository.findOne({
+      where: {
+        id_usuario: id,
+      },
+      relations: ['suscriptor'],
+    });
+    if (!userExist)
       throw new HttpException(
-        'Ocurrio un error al intentar recuperar los datos',
-        HttpStatus.CONFLICT,
+        'No se encontro la información solicitada',
+        HttpStatus.NOT_FOUND,
       );
-    }
+
+    delete userExist.contrasena;
+    return userExist;
   }
 
   async login(loginUserDto: LoginUserDto) {
@@ -93,7 +84,18 @@ export class UsersService {
         );
 
       delete userExist.contrasena;
-      return userExist;
+      const tokenPayload = {
+        id: userExist.id_usuario,
+        correo: userExist.correo_electronico,
+        operacion: userExist.nombre_operacion_prueba,
+        inicioPrueba: userExist.inicio_prueba,
+      };
+      const token = await this.jwtService.signAsync(tokenPayload);
+      const data = {
+        token,
+        user: userExist,
+      };
+      return data;
     } catch (error) {
       throw new HttpException(
         'Ocurrio un error al iniciar sesión, intentar nuevamente.',

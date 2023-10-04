@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RelTipoCompraProductoProveedorService } from './rel_tipo_compra_producto_proveedor.service';
 import { CreateRelTipoCompraProductoProveedorDto } from './dto/create-rel_tipo_compra_producto_proveedor.dto';
 import { UpdateRelTipoCompraProductoProveedorDto } from './dto/update-rel_tipo_compra_producto_proveedor.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('rel-tipo-compra-producto-proveedor') // Add tag for swagger documentation
 @Controller('rel-tipo-compra-producto-proveedor')
 export class RelTipoCompraProductoProveedorController {
   constructor(private readonly relTipoCompraProductoProveedorService: RelTipoCompraProductoProveedorService) {}

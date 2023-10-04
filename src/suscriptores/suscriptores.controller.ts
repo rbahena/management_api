@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { SuscriptoresService } from './suscriptores.service';
 import { CreateSuscriptoreDto } from './dto/create-suscriptore.dto';
 import { UpdateSuscriptoreDto } from './dto/update-suscriptore.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.interceptor';
 import { Suscriptor } from './entities/suscriptor.entity';
+import { JwtGuardGuard } from 'src/core/guards/jwt-guard/jwt-guard.guard';
 
 
 @ApiTags('suscriptores') // Add tag for swagger documentation
-@UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
 @Controller('suscriptores')
+@UseGuards(JwtGuardGuard)
+@UseInterceptors(LoggerInterceptor) // Add loggerInterceptor
 export class SuscriptoresController {
   constructor(private readonly suscriptoresService: SuscriptoresService) {}
 

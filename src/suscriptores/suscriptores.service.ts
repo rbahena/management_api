@@ -16,7 +16,8 @@ export class SuscriptoresService {
   ) {}
 
   async create(createSuscriptoreDto: CreateSuscriptoreDto) {
-    try {
+    try 
+    {
       const id_usuario  = createSuscriptoreDto.fk_usuario.id_usuario;
       const userExist = await this.userRepository.findOne({
         where: { id_usuario },
