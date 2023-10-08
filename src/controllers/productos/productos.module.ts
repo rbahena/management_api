@@ -7,10 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PresentacionesProducto } from '../presentaciones-producto/entities/presentaciones-producto.entity';
 import { UnidadesMedidaProducto } from '../unidades-medida-producto/entities/unidades-medida-producto.entity';
 import { EnvasesProducto } from '../envases-productos/entities/envases-producto.entity';
+import { Producto } from './entities/producto.entity';
 
 @Module({
   
-  imports:[TypeOrmModule.forFeature([ Operacione, CategoriasProducto, PresentacionesProducto, UnidadesMedidaProducto, EnvasesProducto])],
+  imports:[TypeOrmModule.forFeature([ Operacione, CategoriasProducto, PresentacionesProducto, UnidadesMedidaProducto, EnvasesProducto, Producto])],
   controllers: [ProductosController],
   providers: [ProductosService],
 })
