@@ -27,19 +27,19 @@ export class OperacionesService {
       });
 
       console.log('Operacion existente: ',existeOperacion);
-
-
-      if (suscrptorExist != null)
-        throw new HttpException(
-          'Ya existe el nombre de la operación para su usuario.',
-          HttpStatus.NOT_FOUND,
-        );
-
+      
       if (suscrptorExist == null)
         throw new HttpException(
           'No existe el suscriptor indicado',
           HttpStatus.NOT_FOUND,
         );
+
+      if (existeOperacion != null)
+        throw new HttpException(
+          'Ya existe el nombre de la operación para su usuario.',
+          HttpStatus.NOT_FOUND,
+        );
+
       const operacion = new Operacione();
       operacion.suscriptor = suscrptorExist;
       operacion.nombre_operacion = createOperacioneDto.nombre_operacion;
