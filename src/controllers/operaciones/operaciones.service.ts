@@ -22,7 +22,19 @@ export class OperacionesService {
         where: { id_suscriptor },
       });
 
-      console.log(suscrptorExist);
+      const existeOperacion = await this.operacionesRepository.findOne({
+        where: { suscriptor:createOperacioneDto.fk_suscriptor, nombre_operacion:createOperacioneDto.nombre_operacion  },
+      });
+
+      console.log('Operacion existente: ',existeOperacion);
+
+
+      if (suscrptorExist != null)
+        throw new HttpException(
+          'Ya existe el nombre de la operación para su usuario.',
+          HttpStatus.NOT_FOUND,
+        );
+
       if (suscrptorExist == null)
         throw new HttpException(
           'No existe el suscriptor indicado',
