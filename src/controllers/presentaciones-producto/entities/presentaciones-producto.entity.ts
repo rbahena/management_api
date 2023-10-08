@@ -23,7 +23,7 @@ export class PresentacionesProducto {
     operacione: Operacione;
   
     @Column({ type: 'varchar' })
-    nombre_categoria: string;
+    nombre_presentacion: string;
   
     @Column({ type: 'int', default: 1 })
     estatus: number;
