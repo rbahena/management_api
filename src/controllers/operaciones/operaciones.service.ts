@@ -23,7 +23,7 @@ export class OperacionesService {
       });
 
       const existeOperacion = await this.operacionesRepository.findOne({
-        where: { suscriptor:createOperacioneDto.fk_suscriptor, nombre_operacion:createOperacioneDto.nombre_operacion  },
+        where: { suscriptor:createOperacioneDto.fk_suscriptor, nombre_operacion:createOperacioneDto.nombre_operacion, estatus:1 },
       });
 
       console.log('Operacion existente: ',existeOperacion);
