@@ -3,9 +3,10 @@ import { UnidadesMedidaProductoService } from './unidades-medida-producto.servic
 import { UnidadesMedidaProductoController } from './unidades-medida-producto.controller';
 import { Operacione } from '../operaciones/entities/operacione.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UnidadesMedidaProducto } from './entities/unidades-medida-producto.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([ Operacione, UnidadesMedidaProductoController])],
+  imports:[TypeOrmModule.forFeature([ Operacione, UnidadesMedidaProducto])],
   controllers: [UnidadesMedidaProductoController],
   providers: [UnidadesMedidaProductoService],
 })

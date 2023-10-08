@@ -11,7 +11,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class UnidadesMedidaProductoController {
   constructor(private readonly unidadesMedidaProductoService: UnidadesMedidaProductoService) {}
 
-  @Post()
+  @Post('crearUnidadMedida')
   create(@Body() createUnidadesMedidaProductoDto: CreateUnidadesMedidaProductoDto) {
     return this.unidadesMedidaProductoService.create(createUnidadesMedidaProductoDto);
   }

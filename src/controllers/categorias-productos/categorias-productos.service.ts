@@ -20,24 +20,27 @@ export class CategoriasProductosService {
       const id_operacion =
         createCategoriasProductoDto.fk_operacion.id_operacion_usuario;
       const existeOperacion = await this.operacionesRepository.findOne({
-        where: { id_operacion_usuario: id_operacion, estatus:1 },
+        where: { id_operacion_usuario: id_operacion, estatus: 1 },
       });
 
       console.log(existeOperacion);
-      if(existeOperacion == null){
+      if (existeOperacion == null) {
         throw new HttpException(
           'No existe la operación del usuario',
-          HttpStatus.NOT_FOUND)
+          HttpStatus.NOT_FOUND,
+        );
       }
 
       const existeCategoria = await this.categoriasRepository.findOne({
-        where:{nombre_categoria: createCategoriasProductoDto.nombre_categoria, operacione:createCategoriasProductoDto.fk_operacion}
+        where: {
+          nombre_categoria: createCategoriasProductoDto.nombre_categoria,
+          operacione: createCategoriasProductoDto.fk_operacion,
+          estatus: 1,
+        },
       });
 
-      if(existeCategoria != null){
-        throw new HttpException(
-          'Ya existe la categoria',
-          HttpStatus.NOT_FOUND)
+      if (existeCategoria != null) {
+        throw new HttpException('Ya existe la categoria', HttpStatus.NOT_FOUND);
       }
 
       const categoria = new CategoriasProducto();
@@ -45,10 +48,6 @@ export class CategoriasProductosService {
       categoria.nombre_categoria = createCategoriasProductoDto.nombre_categoria;
       this.categoriasRepository.create(categoria);
       return this.categoriasRepository.save(categoria);
-
-
-
-
     } catch (error) {
       throw new HttpException(error, HttpStatus.NOT_FOUND);
     }
