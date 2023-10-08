@@ -12,7 +12,7 @@ import { LoggerInterceptor } from 'src/core/interceptors/logger/logger.intercept
 export class EnvasesProductosController {
   constructor(private readonly envasesProductosService: EnvasesProductosService) {}
 
-  @Post()
+  @Post('crearEnvase')
   create(@Body() createEnvasesProductoDto: CreateEnvasesProductoDto) {
     return this.envasesProductosService.create(createEnvasesProductoDto);
   }
