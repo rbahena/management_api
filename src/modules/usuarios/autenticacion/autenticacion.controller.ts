@@ -1,12 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AutenticacionService } from './autenticacion.service';
+import { registroUsuario } from './dtos/registroUsuario.dto';
+import { User } from './entities/usuario.entity';
 
 @Controller('autenticacion')
 export class AutenticacionController {
   constructor(private readonly autenticacionService: AutenticacionService) {}
 
-//   @Post('createUser')
-//   create(@Body() createUserDto: CreateUserDto): Promise<User> {
-//     return this.usersService.create(createUserDto);
-//   }
+  @Post("registroUsuario")
+  create(@Body() registroUsuarioDto: registroUsuario) {
+    return this.autenticacionService.registrarUsuario(registroUsuarioDto);
+  }
 }

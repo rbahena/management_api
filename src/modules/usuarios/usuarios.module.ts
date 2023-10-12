@@ -10,6 +10,7 @@ import { OperacionesService } from './operaciones/operaciones.service';
 
 @Module({
   controllers: [AutenticacionController, SuscriptoresController, PlanesPagoController, OperacionesController],
-  providers: [AutenticacionService, SuscriptoresService, PlanesPagoService, OperacionesService]
+  providers: [AutenticacionService, SuscriptoresService, PlanesPagoService, OperacionesService],
+  exports: []
 })
 export class UsuariosModule {}
