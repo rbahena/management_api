@@ -7,8 +7,15 @@ import { User } from './entities/usuario.entity';
 export class AutenticacionController {
   constructor(private readonly autenticacionService: AutenticacionService) {}
 
-  @Post("registroUsuario")
-  create(@Body() registroUsuarioDto: registroUsuario) {
+  @Post("registrarUsuario")
+  registrarUsuario(@Body() registroUsuarioDto: registroUsuario) {
     return this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
+
+  @Post("iniciarSesion")
+  iniciarSesion(@Body() registroUsuarioDto: registroUsuario) {
+    return this.autenticacionService.registrarUsuario(registroUsuarioDto);
+  }
+
+
 }
