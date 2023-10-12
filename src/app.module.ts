@@ -14,6 +14,7 @@ import { UnidadCompraModule } from './controllers/unidad-compra/unidad-compra.mo
 import { ProveedoresModule } from './controllers/proveedores/proveedores.module';
 import { ProductosModule } from './controllers/productos/productos.module';
 import { RelTipoCompraProductoProveedorModule } from './controllers/rel_tipo_compra_producto_proveedor/rel_tipo_compra_producto_proveedor.module';
+import { DashboardModule } from './controllers/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { RelTipoCompraProductoProveedorModule } from './controllers/rel_tipo_com
     UnidadCompraModule,
     ProveedoresModule,
     ProductosModule,
-    RelTipoCompraProductoProveedorModule
+    RelTipoCompraProductoProveedorModule,
+    DashboardModule
   ],
   controllers: [AppController],
   providers: [AppService],
