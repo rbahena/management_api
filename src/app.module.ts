@@ -10,12 +10,14 @@ import { PreciosModule } from './modules/precios/precios.module';
 
 import { ConfigModule } from '@nestjs/config';
 import { environments } from './environments/environments';
+import config from './environments/config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath:
         environments[process.env.NODE_ENV] || 'environments/develop.env',
+      load: [config],
       isGlobal: true,
     }),
     InventarioModule,
