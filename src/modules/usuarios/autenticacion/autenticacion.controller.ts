@@ -15,7 +15,7 @@ export class AutenticacionController {
 
   @Post('registrarUsuario')
   registrarUsuario(@Body() registroUsuarioDto: registroUsuarioDto) {
-    const api_key = this.configService.get('API_KEY');
+    const api_key = this.configService.get<string>('API_KEY');
     console.log(api_key);
     return this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
