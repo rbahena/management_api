@@ -11,6 +11,7 @@ import { PreciosModule } from './modules/precios/precios.module';
 import { ConfigModule } from '@nestjs/config';
 import { environments } from './environments/environments';
 import config from './environments/config';
+import { BaseDatosModule } from './modules/base-datos/base-datos.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import config from './environments/config';
     ProductosModule,
     ProveedoresModule,
     UsuariosModule,
+    BaseDatosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
