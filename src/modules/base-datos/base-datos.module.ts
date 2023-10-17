@@ -1,31 +1,28 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import config from 'src/environments/config';
-var mysql = require('mysql');
 
 @Global()
 @Module({
-  providers: [
-    {
-      provide: 'DB',
+  providers: [],
+  imports: [
+    TypeOrmModule.forRootAsync({
+      inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
-        const { host, username, password, database, port } = configService.database;
-        console.log(host, username, password, database, port);
-        const clientDB = mysql.createConnection({
+        const { host, username, password, database, port } =
+          configService.database;
+        return {
+          type: 'mysql',
           host,
-          user:username,
+          username,
           password,
           database,
           port,
-        });
-
-        clientDB.connect();
-        return clientDB;
+        };
       },
-      inject: [config.KEY],
-    },
+    }),
   ],
-  imports: [],
-  exports: ['DB'],
+  exports: [TypeOrmModule],
 })
 export class BaseDatosModule {}
