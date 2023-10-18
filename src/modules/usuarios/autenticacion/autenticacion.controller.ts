@@ -21,7 +21,7 @@ export class AutenticacionController {
   }
 
   @Post('iniciarSesion')
-  iniciarSesion(@Body() iniciaSesionDto: iniciaSesionDto) {
+  iniciarSesion(@Body() iniciaSesionDto: iniciaSesionDto): Promise<User> {
     return this.autenticacionService.inciaSesion(iniciaSesionDto);
   }
 }
