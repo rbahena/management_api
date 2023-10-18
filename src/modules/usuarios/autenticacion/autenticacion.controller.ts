@@ -15,10 +15,8 @@ export class AutenticacionController {
   ) {}
 
   @Post('registrarUsuario')
-  registrarUsuario(@Body() registroUsuarioDto: registroUsuarioDto) {
-    const api_key = this.configService.database.port;
-    console.log(api_key);
-    return this.autenticacionService.registrarUsuario(registroUsuarioDto);
+  async registrarUsuario(@Body() registroUsuarioDto: registroUsuarioDto) {
+    return await this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
 
   @Post('iniciarSesion')

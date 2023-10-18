@@ -19,6 +19,8 @@ import config from 'src/environments/config';
           password,
           database,
           port,
+          synchronize:false,
+          autoLoadEntities:false
         };
       },
     }),
