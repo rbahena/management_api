@@ -12,7 +12,7 @@ export class AutenticacionService {
   ) {}
 
   async registrarUsuario(registroUsuarioDto: registroUsuarioDto) {
-    const response =  await this.UserRepository.find;
+    const response =  await this.UserRepository.find();
     return response;
   }
 

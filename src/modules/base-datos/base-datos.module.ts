@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
 import config from 'src/environments/config';
 
 @Global()
@@ -19,8 +20,9 @@ import config from 'src/environments/config';
           password,
           database,
           port,
-          synchronize:false,
-          autoLoadEntities:false
+          synchronize:true,
+          autoLoadEntities:true,
+          entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         };
       },
     }),

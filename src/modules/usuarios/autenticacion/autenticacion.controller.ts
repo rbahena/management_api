@@ -5,6 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { iniciaSesionDto } from './dtos/iniciaSesion.dto';
 import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
+import { User } from './entities/usuario.entity';
 
 @ApiTags('Autenticación')
 @Controller('autenticacion')
@@ -15,8 +16,8 @@ export class AutenticacionController {
   ) {}
 
   @Post('registrarUsuario')
-  async registrarUsuario(@Body() registroUsuarioDto: registroUsuarioDto) {
-    return await this.autenticacionService.registrarUsuario(registroUsuarioDto);
+  registrarUsuario(@Body() registroUsuarioDto: registroUsuarioDto): Promise<User>  {
+    return this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
 
   @Post('iniciarSesion')
