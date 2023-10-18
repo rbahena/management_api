@@ -20,7 +20,7 @@ import config from 'src/environments/config';
           password,
           database,
           port,
-          synchronize:true,
+          synchronize:false,
           autoLoadEntities:true,
           entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         };
