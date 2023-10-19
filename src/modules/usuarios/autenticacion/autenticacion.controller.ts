@@ -7,6 +7,7 @@ import { User } from './entities/usuario.entity';
 import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
+import { isPublicEndpoint } from 'src/core/decorators/public.decorator';
 
 @UseGuards(ApiKeyGuard)
 @ApiTags('Autenticación')
@@ -17,7 +18,7 @@ export class AutenticacionController {
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
-  @SetMetadata('isPublic', true)
+  @isPublicEndpoint()
   @Post('registrarUsuario')
   registrarUsuario(
     @Body() registroUsuarioDto: registroUsuarioDto,
