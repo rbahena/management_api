@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
@@ -8,6 +9,7 @@ export class User {
   @Column({ type: 'varchar', unique: true })
   correo_electronico: string;
 
+  @Exclude()
   @Column({ type: 'text' })
   contrasena: string;
 
@@ -38,3 +40,7 @@ export class User {
   @Column({ type: 'timestamp', nullable: true })
   fecha_baja: Date;
 }
+function exclude(target: User, propertyKey: 'contrasena'): void {
+  throw new Error('Function not implemented.');
+}
+
