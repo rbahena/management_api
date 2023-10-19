@@ -10,5 +10,6 @@ export default registerAs('config', () => {
       database: process.env.DATABASE,
     },
     jwt: process.env.JWTSECRET,
+    key_public_endpoint: process.env.KEY_PUBLIC_ENDPOINT
   };
 });
