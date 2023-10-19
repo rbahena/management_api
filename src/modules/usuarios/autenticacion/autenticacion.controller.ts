@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, SetMetadata, UseGuards } from '@nestjs/common';
+import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/core/guards/api-key/api-key.guard';
 import { registroUsuarioDto } from './dtos/registroUsuario.dto';
 import { AutenticacionService } from './autenticacion.service';

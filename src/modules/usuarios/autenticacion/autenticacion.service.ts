@@ -7,6 +7,7 @@ import { User } from './entities/usuario.entity';
 import { iniciaSesionDto } from './dtos/iniciaSesion.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { estatus } from 'src/core/enums/estatus.enum';
+import { compareHash, generateHash } from 'src/core/utils/encrypt';
 
 @Injectable()
 export class AutenticacionService {
@@ -30,7 +31,7 @@ export class AutenticacionService {
       const usuarioEncriptado = {
         ...user,
         correo_electronico,
-        contrasena: contrasena, //await generateHash(contrasena),
+        contrasena: await generateHash(contrasena),
       };
 
       const nuevoUsuario = this.UsuarioRepository.create(usuarioEncriptado);
@@ -50,7 +51,10 @@ export class AutenticacionService {
       if (!existeUsuario)
         throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
 
-      const validacionContrasena = iniciaSesionDto.contrasena; //await compareHash(contrasena, userExist.contrasena);
+      const validacionContrasena = await compareHash(
+        contrasena,
+        existeUsuario.contrasena,
+      );
       if (!validacionContrasena)
         throw new HttpException(
           'Validar usuario o contraseña',
@@ -75,10 +79,7 @@ export class AutenticacionService {
       return data; */
       return existeUsuario;
     } catch (error) {
-      throw new HttpException(
-        'Ocurrio un error al iniciar sesión, intentar nuevamente.',
-        HttpStatus.CONFLICT,
-      );
+      throw new HttpException(error, HttpStatus.CONFLICT);
     }
   }
 }
