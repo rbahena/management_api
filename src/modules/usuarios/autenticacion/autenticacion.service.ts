@@ -6,7 +6,7 @@ import { User } from './entities/usuario.entity';
 
 import { iniciaSesionDto } from './dtos/iniciaSesion.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { estatus } from 'src/enums/estatus.enum';
+import { estatus } from 'src/core/enums/estatus.enum';
 
 @Injectable()
 export class AutenticacionService {
