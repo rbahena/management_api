@@ -1,12 +1,14 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
-import { AutenticacionService } from './autenticacion.service';
+import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { ApiKeyGuard } from 'src/core/guards/api-key/api-key.guard';
 import { registroUsuarioDto } from './dtos/registroUsuario.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { AutenticacionService } from './autenticacion.service';
 import { iniciaSesionDto } from './dtos/iniciaSesion.dto';
+import { User } from './entities/usuario.entity';
 import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
-import { User } from './entities/usuario.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@UseGuards(ApiKeyGuard)
 @ApiTags('Autenticación')
 @Controller('autenticacion')
 export class AutenticacionController {
@@ -16,7 +18,9 @@ export class AutenticacionController {
   ) {}
 
   @Post('registrarUsuario')
-  registrarUsuario(@Body() registroUsuarioDto: registroUsuarioDto): Promise<User>  {
+  registrarUsuario(
+    @Body() registroUsuarioDto: registroUsuarioDto,
+  ): Promise<User> {
     return this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
 
