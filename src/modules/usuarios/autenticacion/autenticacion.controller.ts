@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/core/guards/api-key/api-key.guard';
 import { registroUsuarioDto } from './dtos/registroUsuario.dto';
 import { AutenticacionService } from './autenticacion.service';
@@ -8,6 +8,7 @@ import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
 import { isPublicEndpoint } from 'src/core/decorators/public.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @UseGuards(ApiKeyGuard)
 @ApiTags('Autenticación')
@@ -26,10 +27,14 @@ export class AutenticacionController {
     return this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
 
-  
-
   @Post('iniciarSesion')
   iniciarSesion(@Body() iniciaSesionDto: iniciaSesionDto): Promise<any> {
     return this.autenticacionService.inciaSesion(iniciaSesionDto);
+  }
+
+  @UseGuards(AuthGuard('jwt_strategy'))
+  @Get()
+  obtenerUsuarios() {
+    return this.autenticacionService.getAll();
   }
 }

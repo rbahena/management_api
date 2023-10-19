@@ -86,4 +86,8 @@ export class AutenticacionService {
       user,
     };
   }
+
+  async getAll() {
+     return 'hola';
+  }
 }

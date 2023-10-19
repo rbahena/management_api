@@ -16,6 +16,9 @@ import { OperacionesService } from './operaciones/operaciones.service';
 import { JwtModule } from '@nestjs/jwt';
 import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
+import { JwtEstrategy } from 'src/core/utils/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+
 
 @Module({
   imports: [
@@ -31,6 +34,7 @@ import { ConfigType } from '@nestjs/config';
         };
       },
     }),
+    PassportModule
   ],
   controllers: [
     AutenticacionController,
@@ -43,6 +47,7 @@ import { ConfigType } from '@nestjs/config';
     SuscriptoresService,
     PlanesPagoService,
     OperacionesService,
+    JwtEstrategy
   ],
   exports: [],
 })
