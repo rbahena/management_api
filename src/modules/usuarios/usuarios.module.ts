@@ -13,12 +13,25 @@ import { PlanesPagoService } from './planes-pago/planes-pago.service';
 
 import { OperacionesController } from './operaciones/operaciones.controller';
 import { OperacionesService } from './operaciones/operaciones.service';
-
-
-
+import { JwtModule } from '@nestjs/jwt';
+import config from 'src/environments/config';
+import { ConfigType } from '@nestjs/config';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User])],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    JwtModule.registerAsync({
+      inject:[config.KEY],
+      useFactory: (configService: ConfigType<typeof config>) => {
+        return {
+          secret: configService.jwt.jwt_secret,
+          signOptions: {
+            expiresIn: configService.jwt.jwt_expiration,
+          },
+        };
+      },
+    }),
+  ],
   controllers: [
     AutenticacionController,
     SuscriptoresController,

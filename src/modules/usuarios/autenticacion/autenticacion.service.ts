@@ -8,11 +8,13 @@ import { iniciaSesionDto } from './dtos/iniciaSesion.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { estatus } from 'src/core/enums/estatus.enum';
 import { compareHash, generateHash } from 'src/core/utils/encrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AutenticacionService {
   constructor(
     @InjectRepository(User) private UsuarioRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   async registrarUsuario(registroUsuarioDto: registroUsuarioDto) {
@@ -65,21 +67,23 @@ export class AutenticacionService {
       delete existeUsuario.fecha_alta;
       delete existeUsuario.fecha_baja;
 
-      /*const tokenPayload = {
-        id: userExist.id_usuario,
-        correo: userExist.correo_electronico,
-        operacion: userExist.nombre_operacion_prueba,
-        inicioPrueba: userExist.inicio_prueba,
-      };
-      const token = await this.jwtService.signAsync(tokenPayload);
-      const data = {
-        token,
-        user: userExist,
-      };
-      return data; */
-      return existeUsuario;
+      return this.generateJwt(existeUsuario);
     } catch (error) {
       throw new HttpException(error, HttpStatus.CONFLICT);
     }
+  }
+
+  async generateJwt(user: User) {
+    const tokenPayload = {
+      id: user.id_usuario,
+      correo: user.correo_electronico,
+      operacion: user.nombre_operacion_prueba,
+      inicioPrueba: user.inicio_prueba,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(tokenPayload),
+      user,
+    };
   }
 }

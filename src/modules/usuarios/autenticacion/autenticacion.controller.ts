@@ -29,7 +29,7 @@ export class AutenticacionController {
   
 
   @Post('iniciarSesion')
-  iniciarSesion(@Body() iniciaSesionDto: iniciaSesionDto): Promise<User> {
+  iniciarSesion(@Body() iniciaSesionDto: iniciaSesionDto): Promise<any> {
     return this.autenticacionService.inciaSesion(iniciaSesionDto);
   }
 }
