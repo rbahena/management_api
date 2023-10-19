@@ -13,7 +13,7 @@ import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
 
 @Injectable()
-export class ApiKeyGuard implements CanActivate {
+export class IsPublicEndpointGuard implements CanActivate {
   constructor(private reflector: Reflector,
               @Inject(config.KEY) private configService: ConfigType<typeof config>) {}
 

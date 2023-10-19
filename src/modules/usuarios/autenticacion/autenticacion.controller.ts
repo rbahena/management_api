@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
-import { ApiKeyGuard } from 'src/core/guards/api-key/api-key.guard';
+import { IsPublicEndpointGuard } from 'src/core/guards/isPublicEndpoint/isPublicEndpoint.guard';
 import { registroUsuarioDto } from './dtos/registroUsuario.dto';
 import { AutenticacionService } from './autenticacion.service';
 import { iniciaSesionDto } from './dtos/iniciaSesion.dto';
@@ -10,7 +10,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { isPublicEndpoint } from 'src/core/decorators/public.decorator';
 import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(ApiKeyGuard)
+@UseGuards(IsPublicEndpointGuard)
 @ApiTags('Autenticación')
 @Controller('autenticacion')
 export class AutenticacionController {
