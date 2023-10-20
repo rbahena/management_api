@@ -8,7 +8,7 @@ import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
 import { isPublicEndpoint } from 'src/core/decorators/public.decorator';
-import { JwtValidatorGuard } from 'src/core/guards/jwt-validator/jwt-validator.guard';
+import { JwtValidatorGuard } from 'src/core/guards/jwtValidator/jwtValidator.guard';
 
 
 @UseGuards(IsPublicEndpointGuard)
