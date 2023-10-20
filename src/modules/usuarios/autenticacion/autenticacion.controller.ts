@@ -8,9 +8,12 @@ import config from 'src/environments/config';
 import { ConfigType } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
 import { isPublicEndpoint } from 'src/core/decorators/public.decorator';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtValidatorGuard } from 'src/core/guards/jwt-validator/jwt-validator.guard';
+
 
 @UseGuards(IsPublicEndpointGuard)
+@UseGuards(JwtValidatorGuard)
+
 @ApiTags('Autenticación')
 @Controller('autenticacion')
 export class AutenticacionController {
@@ -27,13 +30,14 @@ export class AutenticacionController {
     return this.autenticacionService.registrarUsuario(registroUsuarioDto);
   }
 
+  @isPublicEndpoint()
   @Post('iniciarSesion')
   iniciarSesion(@Body() iniciaSesionDto: iniciaSesionDto): Promise<any> {
     return this.autenticacionService.inciaSesion(iniciaSesionDto);
   }
 
-  @UseGuards(AuthGuard('jwt_strategy'))
   @Get()
+  @isPublicEndpoint()
   obtenerUsuarios() {
     return this.autenticacionService.getAll();
   }
