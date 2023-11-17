@@ -22,6 +22,7 @@ import config from 'src/environments/config';
           port,
           synchronize:false,
           autoLoadEntities:true,
+          connectTimeout:10000,
           entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         };
       },
