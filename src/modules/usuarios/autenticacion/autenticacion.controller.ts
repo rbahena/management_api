@@ -10,7 +10,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { isPublicEndpoint } from 'src/core/decorators/public.decorator';
 import { JwtValidatorGuard } from 'src/core/guards/jwtValidator/jwtValidator.guard';
 
-
 @UseGuards(IsPublicEndpointGuard)
 @UseGuards(JwtValidatorGuard)
 
@@ -37,7 +36,8 @@ export class AutenticacionController {
   }
 
   @Get()
-  @isPublicEndpoint()
+  //@UseGuards(JwtValidatorGuard)
+  //@isPublicEndpoint() // Si se agrega este decorador, se indica que se puede invocar el metodo sin pasarle en los header el valor: "isPublicEndpoint"
   obtenerUsuarios() {
     return this.autenticacionService.getAll();
   }
