@@ -8,9 +8,9 @@ import config from 'src/environments/config';
 export class JwtEstrategy extends PassportStrategy(Strategy, 'jwt_strategy') {
   constructor(@Inject(config.KEY) configService: ConfigType<typeof config>) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Indica desde donde tomara el token, en este caso, en los headers con valor bearer Token
       ignoreExpiration: false,
-      secretOrKey: configService.jwt.jwt_secret,
+      secretOrKey: configService.jwt.jwt_secret, // Obtengo la llave de los environments
     });
   }
 
